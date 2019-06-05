@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.dao.StoreDao">
+    <sql id="sql_list">
+        store_name,
+        store_desc,
+        store_address,
+        store_telephone,
+        store_image,
+        store_ starttime,
+        store_endtime
+        category_id
+    </sql>
+    <sql id="bean_list">
+        #{store.storeName},
+        #{store.storeDesc},
+        #{store.storeAddress},
+        #{store.storeTelephone},
+        #{store.storeImage},
+        #{store.StartTime},
+        #{store.EndTime},
+        #{store.categoryId}
+    </sql>
+    <sql id="sql_update">
+         store_name=#{store.storeName},store_desc=#{store.storeDesc},
+         store_address=#{store.storeAddress},store_telephone=#{store.storeTelephone},
+         store_starttime=#{store.storeStartTime},store_endTime=#{store.storeEndTime},
+         store_image=#{store.storeImage},category_id=#{store.categoryId}
+    </sql>
+    <sql id="sql_select">
+        store_id as storeId,store_name as storeName,store_desc as storeDesc,
+        store_address as storeAddress,store_telephone as storeTelephone,
+        store_image as storeImage,store_starttime as storeStartTime,
+        store_endtime as storeEndTime,category_id as categoryId
+    </sql>
+    <select id="getTotal" resultType="int">
+        select count(*) from store;
+    </select>
+    <insert id="insert" parameterType="store" useGeneratedKeys="true" keyProperty="store_id">
+        insert into store (<include refid="sql_list"/>) values (<include refid="bean_list"/>);
+
+    </insert>
+    <update id="update" parameterType="store">
+        update store set <include refid="sql_update"/> where store_id=#{store.storeId}
+    </update>
+    <delete id="delete" parameterType="int">
+        delete from store where store_id=#{id}
+    </delete>
+    <select id="getStoreById" parameterType="int" resultType="store">
+        select <include refid="sql_select"/> from store where store_id=#{id}
+    </select>
+    <select id="getList" resultType="store">
+        select store_id as storeId,<include refid="sql_select"/> from store
+        order by store_id limit #{start},#{count}
+    </select>
+    <select id="getStoreListByCategoryId" resultType="store" parameterType="int">
+        select store_id as storeId,
+        store_id as storeId,
+        store_name as storeName,
+        store_desc as storeDesc,
+        store_address as storeAddress,
+        store_telephone as storeTelephone,
+        store_image as storeImage,
+        store_starttime as storeStartTime,
+        store_endtime as storeEndTime
+        from store where category_id=#{categoryId}
+    </select>
+</mapper>

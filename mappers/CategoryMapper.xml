@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.dao.CategoryDao">
+
+    <sql id="sql_list">
+            category_id,
+            category_name
+    </sql>
+    <select id="getTotal" resultType="int">
+        SELECT count(*) from category;
+    </select>
+    <insert id="insert" parameterType="category" useGeneratedKeys="true" keyProperty="category_id">
+        insert into category (category_name) values (#{category.categoryName});
+    </insert>
+    <update id="update" parameterType="category">
+        update category set category_name = #{category.categoryName}
+            where category_id = #{category.categoryId};
+    </update>
+    <delete id="delete" parameterType="int">
+        delete from category where category_id=#{id};
+    </delete>
+    <select id="getCategoryById" resultType="category" parameterType="int">
+        select category_id AS categoryId,category_name AS categoryName
+            from category where category_id = #{id};
+    </select>
+    <select id="getList" resultType="category">
+        select category_id as categoryId,category_name as categoryName
+            from category order by category_id limit #{start},#{count};
+    </select>
+</mapper>
