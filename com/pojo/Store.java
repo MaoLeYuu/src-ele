@@ -1,6 +1,7 @@
 package com.pojo;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -17,8 +18,36 @@ public class Store implements Serializable {
     private String storeTelephone;
     private int categoryId;     //店铺分类的id号
     private String storeImage;   //店铺的标志
-    private Date storeStartTime;
-    private Date storeEndtime;
+    private Time storeStartTime;
+    private Time storeEndtime;
+    private float storeShippingFee;
+    private int storeTime;
+    private Integer storeComment;
+
+    public Integer getStoreComment() {
+        return storeComment;
+    }
+
+    public void setStoreComment(Integer storeComment) {
+        this.storeComment = storeComment;
+    }
+
+    public float getStoreShippingFee() {
+        return storeShippingFee;
+    }
+
+    public void setStoreShippingFee(float storeShippingFee) {
+        this.storeShippingFee = storeShippingFee;
+    }
+
+    public int getStoreTime() {
+        return storeTime;
+    }
+
+    public void setStoreTime(int storeTime) {
+        this.storeTime = storeTime;
+    }
+
     public Store() {
     }
 
@@ -88,19 +117,19 @@ public class Store implements Serializable {
         this.storeImage = store_image;
     }
 
-    public Date getStoreStartTime() {
+    public Time getStoreStartTime() {
         return storeStartTime;
     }
 
-    public void setStoreStartTime(Date storeStartTime) {
+    public void setStoreStartTime(Time storeStartTime) {
         this.storeStartTime = storeStartTime;
     }
 
-    public Date getStoreEndtime() {
+    public Time getStoreEndtime() {
         return storeEndtime;
     }
 
-    public void setStoreEndtime(Date storeEndtime) {
+    public void setStoreEndtime(Time storeEndtime) {
         this.storeEndtime = storeEndtime;
     }
 

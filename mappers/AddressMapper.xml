@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.dao.AddressDao">
+    <sql id="select_sql">
+        address_id as addressId,
+        user_id as userId,
+        address as address,
+        name as name,
+        gender as gender,
+        telephone as telephone
+
+    </sql>
+    <insert id="insert" parameterType="address" useGeneratedKeys="true" keyProperty="address.addressId">
+        insert into address(user_id, address, name, gender, telephone)
+            values (#{address.userId},#{address.address},#{address.name},#{address.gender},#{address.telephone})
+    </insert>
+    <delete id="delete" parameterType="int">
+        delete from address where address_id=#{addressId}
+    </delete>
+    <update id="update" parameterType="address">
+        update address set user_id=#{address.userId}, address=#{address.address}, name=#{address.name},
+         gender=#{address.gender}, telephone=#{address.telephone}, details_address=#{address.detailsAddress}
+         where address_id=#{address.addressId}
+    </update>
+    <select id="getAddressByUserId" resultType="address" parameterType="int">
+        select <include refid="select_sql"/> from address where user_id=#{userId}
+    </select>
+</mapper>

@@ -5,6 +5,10 @@
 
 <!-- namespace：命名空间，用于隔离sql-->
 <mapper namespace="com.dao.StoreDao">
+    <!--<resultMap id="resultStore" type="com.pojo.Store">
+        <result property="storeStartTime" column="store_startTime" typeHandler="org.apache.ibatis.type.SqlTimeTypeHandler"></result>
+        <result property="storeEndTime" column="store_endTime" typeHandler="org.apache.ibatis.type.SqlTimeTypeHandler"></result>
+    </resultMap>-->
     <sql id="sql_list">
         store_name,
         store_desc,
@@ -35,7 +39,9 @@
         store_id as storeId,store_name as storeName,store_desc as storeDesc,
         store_address as storeAddress,store_telephone as storeTelephone,
         store_image as storeImage,store_starttime as storeStartTime,
-        store_endtime as storeEndTime,category_id as categoryId
+        store_endtime as storeEndTime,category_id as categoryId,
+        store_shippingfee as storeShippingFee,
+        store_time as storeTime
     </sql>
     <select id="getTotal" resultType="int">
         select count(*) from store;
@@ -54,19 +60,25 @@
         select <include refid="sql_select"/> from store where store_id=#{id}
     </select>
     <select id="getList" resultType="store">
-        select store_id as storeId,<include refid="sql_select"/> from store
+        select <include refid="sql_select"/> from store
         order by store_id limit #{start},#{count}
     </select>
     <select id="getStoreListByCategoryId" resultType="store" parameterType="int">
         select store_id as storeId,
-        store_id as storeId,
         store_name as storeName,
         store_desc as storeDesc,
         store_address as storeAddress,
         store_telephone as storeTelephone,
+        category_id as categoryId,
         store_image as storeImage,
-        store_starttime as storeStartTime,
-        store_endtime as storeEndTime
-        from store where category_id=#{categoryId}
+        store_startTime as storeStartTime,
+        store_endTime as storeEndTime,
+        store_shippingfee as storeShippingFee,
+        store_time as storeTime
+        from store  where category_id=#{categoryId}
+
+    </select>
+    <select id="getStoreByStoreName" resultType="store" parameterType="string">
+        select <include refid="sql_select"/> from store where store_name like Concat('%',#{storeName},'%')
     </select>
 </mapper>

@@ -12,6 +12,43 @@ public class Address implements Serializable {
     private int addressId;
     private int userId;
     private String address;
+    private String name;
+    private String gender;
+    private String telephone;
+
+    //private String detailsAddress;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+   /* public String getDetailsAddress() {
+        return detailsAddress;
+    }
+
+    public void setDetailsAddress(String detailsAddress) {
+        this.detailsAddress = detailsAddress;
+    }*/
 
     public Address() {
     }

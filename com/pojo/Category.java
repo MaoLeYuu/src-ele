@@ -1,10 +1,21 @@
 package com.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Category implements Serializable {
     private int categoryId;
     private String categoryName;
+
+    private List<Store> storeList;
+
+    public List<Store> getStoreList() {
+        return storeList;
+    }
+
+    public void setStoreList(List<Store> storeList) {
+        this.storeList = storeList;
+    }
 
     public int getCategoryId() {
         return categoryId;
@@ -22,11 +33,6 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "categoryId=" + categoryId +
-                ", categoryName='" + categoryName + '\'' +
-                '}';
-    }
+
+
 }

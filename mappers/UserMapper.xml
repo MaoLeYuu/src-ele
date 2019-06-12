@@ -2,7 +2,34 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- namespace：命名空间，用于隔离sql-->
-<mapper namespace="com.dao.">
+<mapper namespace="com.dao.UserDao" >
+    <resultMap id="UserResult" type="com.pojo.User">
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userPassword" column="user_password"/>
+        <result property="userTelephone" column="user_telephone"/>
+        <result property="userIsSuper" column="user_is_super"/>
+        <result property="userDefaultAddress" column="user_default_address"/>
+    </resultMap>
+    <select id="login" parameterType="string" resultMap="UserResult">
+        select * from user
+        where user_name=#{username} and user_password=#{password}
+    </select>
 
+    <select id="findMsg" parameterType="string" resultType="user">
+        select *
+        from user
+        where user_name = #{username} and user_password = #{password}
+    </select>
+    <select id="fingUser" parameterType="int" resultType="user">
+        select *
+        from user
+        where user_id=#{id}
+    </select>
+    <insert id="insert" parameterType="user" useGeneratedKeys="true" keyProperty="user.userId">
+        insert into user(user_name, user_password) values (#{user.userName},#{user.userPassword})
+    </insert>
+    <select id="getUserByName" resultMap="UserResult" parameterType="string">
+        select * from user where user_name=#{userName}
+    </select>
 </mapper>
