@@ -10,4 +10,5 @@ public interface AddressDao {
     Integer delete(@Param("addressId") int addressId);
     Integer update(@Param("address") Address address);
     List<Address> getAddressByUserId(@Param("userId") int userId);
+    Address getAddressById(@Param("addressId") int addressId);
 }

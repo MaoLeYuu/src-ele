@@ -29,4 +29,7 @@
     <select id="getAddressByUserId" resultType="address" parameterType="int">
         select <include refid="select_sql"/> from address where user_id=#{userId}
     </select>
+    <select id="getAddressById" resultType="address" parameterType="int">
+        SELECT <include refid="select_sql" /> from address where address_id=#{addressId}
+    </select>
 </mapper>

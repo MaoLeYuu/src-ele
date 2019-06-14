@@ -16,30 +16,33 @@
    <!-- <select id="findUserByUsername" parameterType="String" resultType="cn.zhku.jsj.mybatis.entity.User">
         select * from user where username like '%%'
     </select>-->
-   <select id="getSortMark" resultType="java.util.HashMap" parameterType="map">
+   <select id="getSortMark" resultType="java.util.HashMap" parameterType="int">
       select product.product_id as id,product_name as Pname,product_price as price,
       product_desc as Pdesc,product_comment.comment_mark as comentMark,product_image as src from product
       inner join product_comment on(product.product_id=product_comment.product_id and store_id=#{storeId}) order by comentMark desc
-      <if test="start!=null and limit!=null">
-         limit #{start},#{limit}
-      </if>
    </select>
-   <select id="getSortMarkCount" resultType="int" parameterType="map">
+   <select id="getSortMarkCount" resultType="int" parameterType="int">
         select count(*) from product
         inner join product_comment
         on(product.product_id=product_comment.product_id and store_id=#{storeId})
         order by comentMark desc
     </select>
-   <select id="getProductCount" resultType="int" parameterType="map">
+   <select id="getProductCount" resultType="int" parameterType="int">
      select count(*) from product inner join product_comment on(product.product_id=product_comment.product_id and store_id=#{storeId})
    </select>
-   <select id="getProduct" resultType="java.util.HashMap" parameterType="map">
-      select product.product_id as id,product_name as Pname,product_price as price,
-      product_desc as Pdesc,product_comment.comment_mark as comentMark,product_image as src from product
-      inner join product_comment on(product.product_id=product_comment.product_id and store_id=#{storeId})
-      <if test="start!=null and limit!=null">
-         limit #{start},#{limit}
-      </if>
+   <select id="getProduct" resultType="java.util.HashMap" parameterType="int">
+      SELECT
+      product.product_id AS id,
+      product_name AS Pname,
+      SUM(orderitem.count) as Pcount,
+      product_price AS price,
+      product_desc AS Pdesc,
+      product_comment.comment_mark AS comentMark,
+      product_image AS src
+      FROM
+      product
+      INNER JOIN product_comment ON ( product.product_id = product_comment.product_id AND store_id = #{storeId} )
+      INNER JOIN orderitem on (product.product_id=orderitem.product_id) GROUP BY id
    </select>
    <!--   <select id="getAllProduct" resultMap="ProductResult" parameterType="int">
          select * from product where store_id=#{storeId} order by product_id
@@ -55,22 +58,50 @@
       <if test="flag='false'">
          asc
       </if>
-      <if test="start!=null and limit!=null">
-         limit #{start},#{limit}
-      </if>
    </select>
-   <select id="getSortPriceCount" resultType="int" parameterType="map">
+   <select id="getSortPriceCount" resultType="int" parameterType="int">
       select count(*) from product
       inner join product_comment on(product.product_id=product_comment.product_id and store_id=#{storeId})
    </select>
-   <select id="getOrder" resultType="java.util.HashMap" parameterType="map">
+   <select id="getOrder" resultType="java.util.HashMap" parameterType="int">
       select product.product_id as id,product_name as Pname,product.product_price as price,product.product_desc as Pdesc,orderitem.count,
       product.product_image as src from product inner join orderitem on(product.product_id=orderitem.product_id and product.store_id=#{storeId}) order by orderitem.count desc
-      <if test="start!=null and limit!=null">
-         limit #{start},#{limit}
-      </if>
+
    </select>
-   <select id="getOrderCount" resultType="int" parameterType="map">
+   <select id="getOrderCount" resultType="int" parameterType="int">
       select count(*) from product inner join orderitem on(product.product_id=orderitem.product_id and product.store_id=#{storeId}) order by orderitem.count desc
+   </select>
+   <select id="getProductById" parameterType="int" resultType="product">
+      select * from product where product_id=#{pid}
+   </select>
+   <select id="getProductIdByStoreId" resultType="int" parameterType="int">
+        select product_id from product where store_id=#{storeId}
+   </select>
+   <insert id="addOrderItem" parameterType="java.util.List">
+      insert into orderitem(
+      orderitem_id,
+      orders_id,
+      product_id,
+      count,
+      sub_total
+      )
+      values
+      <foreach collection="list" item="OrderItem" index="index" separator=",">
+         (#{orderItemId},
+         #{ordersId},
+         #{productId},
+         #{count},
+         #{subTotal})
+      </foreach>
+   </insert>
+
+   <insert id="addOrders" parameterType="Orders">
+      insert into orders(
+      user_id, store_id, orders_date,orders_status, orders_address, order_name, order_telephone
+      )
+      values (#{userId},#{storeId},#{orders_date},#{status},#{userAddress},#{orderName},#{userTelephone})
+   </insert>
+   <select id="getAllOrderItem" resultType="java.util.List">
+      select * from orderitem;
    </select>
 </mapper>

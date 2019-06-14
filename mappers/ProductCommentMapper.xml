@@ -16,13 +16,29 @@
 
 
     <select id="getCommentOne" resultType="java.util.HashMap" parameterType="int">
-        select product_comment_id as id,user.user_name as userName,product.product_name as productName,
-        product_comment.comment as Pcomment,store_comment.comment as Scomment,comment_mark,create_date
-        from product_comment
-        inner join user on(product_comment.user_id=user.user_id)
-        inner  join product on(product_comment.product_id=product.product_id and product.store_id=#{storeId})
-        inner join store_comment on(store_comment.store_id=product.store_id and store_comment.user_id=product_comment.user_id)
-        order by product_comment_id desc
+      SELECT
+	product.store_id,
+	product_comment_id AS id,
+	`user` .user_name AS userName,
+	product.product_name AS productName,
+	product_comment. `comment` AS Pcomment,
+	store_comment. `comment` AS Scomment,
+	comment_mark,
+	store_comment.date
+FROM
+	product_comment
+INNER JOIN `user` ON (
+	product_comment.user_id = `user` .user_id
+)
+INNER JOIN product ON (
+	product_comment.product_id = product.product_id
+	AND product.store_id = #{storeId})
+	INNER JOIN store_comment ON (
+		store_comment.store_id = product.store_id
+
+	)
+	ORDER BY
+		userName DESC
     </select>
 
     <select id="getComment" resultType="java.util.HashMap" parameterType="map">

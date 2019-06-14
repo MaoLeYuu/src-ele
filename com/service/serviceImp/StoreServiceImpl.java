@@ -26,4 +26,14 @@ public class StoreServiceImpl implements StoreService {
     public List<Store> getStoreByStoreName(String storeName) {
         return storeDao.getStoreByStoreName(storeName);
     }
+
+    @Override
+    public Float getStoreShoppingFee(int storeId) {
+        return storeDao.getStoreShoppingFee(storeId);
+    }
+
+    @Override
+    public Integer getStoreTime(int storeId) {
+        return storeDao.getStoreTime(storeId);
+    }
 }

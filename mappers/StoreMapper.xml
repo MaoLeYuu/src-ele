@@ -81,4 +81,11 @@
     <select id="getStoreByStoreName" resultType="store" parameterType="string">
         select <include refid="sql_select"/> from store where store_name like Concat('%',#{storeName},'%')
     </select>
+
+    <select id="getStoreShoppingFee" resultType="float" parameterType="int">
+        select store_shippingfee from store where store_id=#{storeId}
+    </select>
+    <select id="getStoreTime" resultType="int" parameterType="int">
+        select store_time from store where store_id=#{storeId}
+    </select>
 </mapper>

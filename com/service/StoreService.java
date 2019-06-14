@@ -9,4 +9,6 @@ public interface StoreService {
     public List<Store> getAllStore();
     public List<Store> getStoreByCategoryId(int categoryId);
     List<Store> getStoreByStoreName(String storeName);
+    Float getStoreShoppingFee(int storeId);
+    Integer getStoreTime(int storeId);
 }

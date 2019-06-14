@@ -1,5 +1,7 @@
 package com.service.serviceImp;
 
+import com.controller.result.ProductOne;
+import com.controller.result.productCommentBean;
 import com.dao.ProductCommentDao;
 import com.service.ProductCommentService;
 import com.utils.PageResult;
@@ -9,8 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("productCommentService")
 public class ProductCommentServiceImpl implements ProductCommentService {
@@ -41,8 +42,11 @@ public class ProductCommentServiceImpl implements ProductCommentService {
     }
 
     @Override
-    public List<Map<String, Object>> comment(int storeId) {
-        return productCommentDao.getCommentOne(storeId);
+    public List<Map<String,Object>> comment(int storeId) {
+
+        List<Map<String,Object>> mapList=productCommentDao.getCommentOne(storeId);
+        System.out.println(mapList);
+        return mapList;
     }
 
 

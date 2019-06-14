@@ -1,5 +1,6 @@
 package com.service;
 
+import com.controller.result.productCommentBean;
 import com.utils.PageResult;
 import com.utils.PageUtil;
 

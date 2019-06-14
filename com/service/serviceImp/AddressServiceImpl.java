@@ -31,4 +31,9 @@ public class AddressServiceImpl implements AddressService {
     public List<Address> selectAddressByUserId(int userId) {
         return addressDao.getAddressByUserId(userId);
     }
+
+    @Override
+    public Address getAddressById(int addressId) {
+        return addressDao.getAddressById(addressId);
+    }
 }

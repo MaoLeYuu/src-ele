@@ -16,4 +16,6 @@ public interface StoreDao {
      List<Store> getList(@Param("start") int start, @Param("count") int count);
      List<Store> getStoreListByCategoryId(@Param("categoryId") int categoryId);
      List<Store> getStoreByStoreName(@Param("storeName") String storeName);
+     Float getStoreShoppingFee(@Param("storeId") int storeId);
+     Integer getStoreTime(@Param("storeId") int storeId);
 }

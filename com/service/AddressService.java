@@ -9,4 +9,5 @@ public interface AddressService {
     Integer deleteAddress(int addressId);
     Integer updateAddress(Address address);
     List<Address> selectAddressByUserId(int userId);
+    Address getAddressById(int addressId);
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.dao.OrderItemDao">
+    <sql id="select_sql">
+        orderItem_id as orderItemId,
+        orders_id as ordersId,
+        product_id as productId,
+        count as count
+    </sql>
+    <insert id="insert" parameterType="orderItem" useGeneratedKeys="true" keyProperty="orderItem.orderItemId">
+        insert into orderitem(orders_id, product_id, count,sub_total) values (#{orderItem.ordersId},#{orderItem.productId},
+            #{orderItem.count},#{orderItem.subTotal})
+    </insert>
+    <select id="getOrderItemByOrderId" resultType="orderItem" parameterType="int">
+        select <include refid="select_sql"/> from orderitem where orders_id=#{orderId}
+    </select>
+</mapper>

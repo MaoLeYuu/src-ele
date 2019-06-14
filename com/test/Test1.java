@@ -18,14 +18,23 @@ public class Test1 {
         //demo3(applicationContext);
         //demo4(applicationContext);
         //demo5(applicationContext);
+        //demo6(applicationContext);
+        //demo7(applicationContext);
+    }
+
+    private static void demo7(ApplicationContext applicationContext) {
+        StoreDao storeDao = (StoreDao) applicationContext.getBean("storeDao");
+        System.out.println(storeDao.getStoreShoppingFee(12));
+        System.out.println(storeDao.getStoreTime(12));
+    }
+
+    private static void demo6(ApplicationContext applicationContext) {
         AddressDao addressDao = (AddressDao) applicationContext.getBean("addressDao");
         Address address = new Address();
         address.setUser_id(1);
         address.setName("张三");
         address.setGender("男");
-
-       // addressDao.insert(address);
-        System.out.println(addressDao.getAddressByUserId(1));
+        System.out.println(addressDao.getAddressById(28));
     }
 
     private static void demo5(ApplicationContext applicationContext) {

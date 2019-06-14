@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：命名空间，用于隔离sql-->
+<mapper namespace="com.dao.OrdersDao">
+    <sql id="select_sql">
+        orders_id as ordersId,
+        user_id as userId,
+        store_id as storeId,
+        orders_date as orders_date,
+        orders_status as ordersStatus
+    </sql>
+    <insert id="insert" parameterType="orders" useGeneratedKeys="true" keyProperty="orders.ordersId">
+        insert into orders(user_id, store_id, orders_date,orders_status)
+            values (#{orders.userId},#{orders.storeId},#{orders.orders_date},#{orders.ordersStatus})
+    </insert>
+    <select id="getOrdersByUserId" resultType="orders" parameterType="int">
+        select <include refid="select_sql"/> from orders where user_id=#{userId}
+    </select>
+    <select id="getMonthsThree" resultType="java.util.HashMap" parameterType="int">
+        SELECT
+        orders.orders_id as ordersId,
+        COUNT(product.product_name) as Pnum,
+        store.store_name as storeName,
+        orders_date as OrderDate,
+        orders_status as status,
+        product.product_name as Pname,
+        SUM(orderitem.sub_total) as subTotal,
+        store.store_image as src,
+        orderitem.count
+        FROM
+        orders
+        INNER JOIN store ON ( orders.store_id = store.store_id )
+        INNER JOIN orderitem ON ( orders.orders_id = orderitem.orders_id )
+        INNER JOIN product ON(orderitem.product_id=product.product_id)
+        WHERE
+        user_id = #{userId}
+        AND orders_date > ( ( SELECT MAX( orders_date ) FROM orders ) - 90 )
+        AND orders.orders_id IN (SELECT DISTINCT orders_id from orders) GROUP BY orders.orders_id,product.product_name
+        ORDER BY orders.orders_id
+    </select>
+    <select id="getOrders" resultType="java.util.HashMap" parameterType="int">
+        SELECT
+        orders.orders_id AS ordersId,
+        COUNT( product.product_name ) AS Pnum,
+        store.store_name AS storeName,
+        orders.orders_address as address,
+        orders.order_telephone as orderPhone,
+        store.store_telephone as storePhone,
+        orders.order_name as ordersName,
+        store.store_image as src,
+        orders_date AS OrderDate,
+        orders_status AS status,
+        product.product_name AS Pname,
+        SUM( orderitem.sub_total ) AS subTotal,
+        orderitem.count
+    FROM
+        orders
+        INNER JOIN store ON ( orders.store_id = store.store_id )
+        INNER JOIN orderitem ON ( orders.orders_id = orderitem.orders_id )
+        INNER JOIN product ON ( orderitem.product_id = product.product_id )
+    WHERE
+        user_id = #{userId} and orders.orders_id=#{ordersId}
+    GROUP BY
+        orders.orders_id,
+        product.product_name
+    ORDER BY
+    orders.orders_id
+    </select>
+</mapper>

@@ -14,15 +14,25 @@ public class OrderItem implements Serializable {
     private int ordersId;
     private int productId;
     private int count;
+    private double subTotal;
 
     public OrderItem() {
     }
 
-    public OrderItem(int orderItemId, int ordersId, int productId, int count) {
+    public OrderItem(int orderItemId, int ordersId, int productId, int count,double subTotal) {
         this.orderItemId = orderItemId;
         this.ordersId = ordersId;
         this.productId = productId;
         this.count = count;
+        this.subTotal=subTotal;
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
 
     public int getOrderItem_id() {

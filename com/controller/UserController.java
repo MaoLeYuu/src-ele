@@ -85,10 +85,13 @@ public class UserController {
             return "success";
         }
         return "fail";*/
+       System.out.println(userName);
+       System.out.println(password);
         if(userService.getUserByName(userName) == null){
             User user = new User();
             user.setUserName(userName);
             user.setUserPassword(password);
+            System.out.println(user);
             userService.insertUser(user);
             return "success";
         }
